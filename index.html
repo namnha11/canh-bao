@@ -2,147 +2,197 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>⚠️ WARNING: REMOTE CONTROL DETECTED ⚠️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siêu Cấp Troll - Đừng Bấm!</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            user-select: none;
-            -webkit-user-select: none;
         }
 
         body {
-            background-color: #0d0d0d;
-            color: #00ff00; /* Màu xanh lá hacker */
-            font-family: 'Courier New', Courier, monospace;
-            height: 100vh;
-            overflow: hidden;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            background-color: #0b0b0b;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-        }
-
-        /* --- GIAO DIỆN CẢNH BÁO (ĐỨNG YÊN, KHÔNG RUNG LẮC) --- */
-        .container {
-            border: 3px solid #ff0000;
-            background: rgba(15, 15, 15, 0.95);
-            padding: 30px;
-            max-width: 600px;
-            width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
-            text-align: center;
-        }
-
-        .danger-title {
-            color: #ff3333;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
-        }
-
-        .info-line {
-            text-align: left;
-            margin-bottom: 12px;
-            font-size: 14px;
-            border-bottom: 1px dashed #333;
-            padding-bottom: 6px;
-        }
-
-        .alert-text {
-            color: #ffcc00;
-            margin: 25px 0;
-            font-size: 15px;
-            line-height: 1.6;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .loading-bar {
-            width: 100%;
-            height: 20px;
-            background: #222;
-            border: 1px solid #ff3333;
-            margin-top: 15px;
-            position: relative;
+            min-height: 100vh;
             overflow: hidden;
         }
 
-        .progress {
-            width: 0%;
-            height: 100%;
-            background: #ff3333;
-            transition: width 0.1s linear;
+        /* Container của nút bấm */
+        .btn-container {
+            text-align: center;
+            margin-bottom: 20px;
+            z-index: 10;
         }
 
-        /* Cửa sổ thông báo lỗi giả hiện lên khi click */
-        .pop-up-error {
+        .troll-btn {
+            padding: 20px 50px;
+            font-size: 30px;
+            font-weight: 900;
+            color: yellow;
+            background: linear-gradient(45deg, #d32f2f, #9a0007);
+            border: 4px solid #fff;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(211, 47, 47, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.2s ease-in-out;
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); box-shadow: 0 0 20px rgba(211, 47, 47, 0.8); }
+            to { transform: scale(1.05); box-shadow: 0 0 35px rgba(255, 0, 0, 1); }
+        }
+
+        .troll-btn.active {
+            background: linear-gradient(45deg, #1b5e20, #4caf50);
+            color: white;
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+            animation: none;
+        }
+
+        /* Khu vực hiển thị nội dung Troll */
+        .troll-content {
+            display: none; 
+            flex-direction: column;
+            align-items: center;
+            z-index: 5;
+            animation: superPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes superPop {
+            0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        /* Ngón tay siêu to khổng lồ */
+        .big-finger {
+            font-size: 160px; 
+            line-height: 1;
+            margin-bottom: 15px;
+            animation: thrust 0.3s infinite alternate ease-in-out;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
+        }
+
+        @keyframes thrust {
+            from { transform: translateY(0) scale(1); }
+            to { transform: translateY(-25px) scale(1.15); }
+        }
+
+        /* Hình ảnh con bò meme nhảy nhót */
+        .cow-gif {
+            width: 260px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            margin-bottom: 25px;
+        }
+
+        /* Bong bóng lời thoại troll bựa */
+        .speech-bubble {
+            background: #ffffff;
+            border-radius: 25px;
+            padding: 20px 40px;
+            position: relative;
+            font-size: 28px;
+            font-weight: 900;
+            color: #ff0000;
+            text-align: center;
+            text-transform: uppercase;
+            box-shadow: 0 10px 30px rgba(255,255,255,0.2);
+            animation: extremeShake 0.1s infinite;
+        }
+
+        .speech-bubble:after {
+            content: '';
             position: absolute;
-            background: #fff;
-            color: #000;
-            font-family: sans-serif;
-            font-size: 13px;
-            border: 2px solid #f00;
-            padding: 15px;
-            width: 280px;
-            box-shadow: 10px 10px 0px #000;
-            z-index: 999;
+            bottom: 100%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border: 20px solid transparent;
+            border-bottom-color: #ffffff;
+            margin-left: -20px;
+        }
+
+        @keyframes extremeShake {
+            0% { transform: translate(2px, 1px) rotate(0deg); }
+            50% { transform: translate(-2px, -1px) rotate(-1deg); }
+            100% { transform: translate(1px, 2px) rotate(1deg); }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="danger-title">⚠️ TIẾN TRÌNH CHIẾM QUYỀN ĐANG HOẠT ĐỘNG ⚠️</div>
-        
-        <div class="info-line"><span style="color: #888;">[MÁY CHỦ KIỂM SOÁT]:</span> RX-SERVER-X99 (Bắc Kinh)</div>
-        <div class="info-line"><span style="color: #888;">[GIAO THỨC]:</span> RAT (Remote Access Trojan) v4.2</div>
-        <div class="info-line"><span style="color: #888;">[TRẠNG THÁI]:</span> Đang đồng bộ hóa toàn bộ tài nguyên hệ thống...</div>
-        
-        <div class="alert-text">
-            🛑 CẢNH BÁO: THIẾT BỊ ĐÃ BỊ CHIẾM QUYỀN ĐIỀU KHIỂN.<br>
-            NẾU CỐ TÌNH THOÁT TRÌNH DUYỆT, MÃ ĐỘC SẼ TỰ ĐỘNG BÊN TRONG (PAYLOAD TRIGGER) LÀM NHIỄM VIRUS TOÀN DIỆN VÀ HỦY HOẠI HỆ THỐNG GỐC!
-        </div>
+    <div class="btn-container">
+        <button id="toggleBtn" class="troll-btn">ĐỪNG BẤM !</button>
+    </div>
 
-        <div style="font-size: 13px; color: #ff3333;">Đang mã hóa dữ liệu cục bộ: <span id="percent-num">0</span>%</div>
-        <div class="loading-bar">
-            <div class="progress" id="progress-bar"></div>
+    <div id="trollContent" class="troll-content">
+        <div class="big-finger">🖕</div> 
+        <img class="cow-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW01Mnd5cmY0amNpdms1OHZnbm00N3V5ZzZ6ZXd5bWhvYmd6Y3Z6ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/iZpzyf70ZgZg1Gi7p2/giphy.gif" alt="Cow Troll">
+        <div class="speech-bubble">
+            Ngu như con bò í!<br>Đã bảo đừng ấn rồi!<br>Hahaha!
         </div>
     </div>
 
     <script>
-        const progressBar = document.getElementById('progress-bar');
-        const percentNum = document.getElementById('percent-num');
-        let currentProgress = 0;
+        const toggleBtn = document.getElementById('toggleBtn');
+        const trollContent = document.getElementById('trollContent');
+        
+        // Âm thanh tiếng bò kêu thực tế chạy nền
+        const cowSound = new Audio('https://actions.google.com/sounds/v1/animals/cow_moo.ogg');
+        cowSound.loop = true; 
 
-        // Tiến trình chạy phần trăm tăng dần ảo
-        const progressInterval = setInterval(() => {
-            currentProgress += Math.random() * 2;
-            if (currentProgress >= 100) {
-                currentProgress = 100;
-                clearInterval(progressInterval);
+        let isTrolling = false;
+        let speakInterval;
+
+        // Hàm phát giọng nói chửi mới kèm điệu cười
+        function playVoice() {
+            window.speechSynthesis.cancel(); // Xóa các giọng nói cũ đang chờ
+            
+            // Viết tách "ha ha ha" để chị Google đọc ra đúng điệu cười cợt
+            const textChui = "Ngu như con bò í. Đã bảo đừng ấn rồi! Ha ha ha ha ha!";
+            const utterance = new SpeechSynthesisUtterance(textChui);
+            utterance.lang = 'vi-VN';
+            utterance.pitch = 1.3; // Giọng cao chanh chua cực troll
+            utterance.rate = 1.05; // Tốc độ nói hơi nhanh một chút cho bựa
+            
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Sự kiện click nút Bật / Tắt
+        toggleBtn.addEventListener('click', () => {
+            isTrolling = !isTrolling;
+
+            if (isTrolling) {
+                toggleBtn.innerText = "TẮT ĐI !";
+                toggleBtn.classList.add('active');
+                trollContent.style.display = 'flex';
+                
+                // Bật tiếng bò kêu thực tế lặp nền
+                cowSound.play().catch(e => console.log("Chờ tương tác trình duyệt"));
+                
+                // Bật giọng nói chửi và lặp lại sau mỗi 4.5 giây
+                playVoice();
+                speakInterval = setInterval(playVoice, 4500); 
+            } else {
+                toggleBtn.innerText = "ĐỪNG BẤM !";
+                toggleBtn.classList.remove('active');
+                trollContent.style.display = 'none';
+                
+                // Dừng toàn bộ âm thanh ngay lập tức khi ấn Tắt
+                clearInterval(speakInterval);
+                window.speechSynthesis.cancel();
+                cowSound.pause();
+                cowSound.currentTime = 0;
             }
-            progressBar.style.width = currentProgress + '%';
-            percentNum.textContent = Math.floor(currentProgress);
-        }, 300);
-
-        // Hiện các pop-up lỗi nhảy lung tung khi bấm vào màn hình
-        document.body.addEventListener('click', () => {
-            const popup = document.createElement('div');
-            popup.className = 'pop-up-error';
-            popup.innerHTML = `
-                <b style="color:red;">SYSTEM FAILURE!</b>
-                <p style="margin: 8px 0;">Không thể ngắt kết nối với Máy chủ kiểm soát. Tài nguyên CPU đang bị quá tải (99%).</p>
-                <button style="float:right; padding:2px 10px;" onclick="this.parentElement.remove()">Đóng</button>
-            `;
-            popup.style.left = (Math.random() * (window.innerWidth - 300)) + 'px';
-            popup.style.top = (Math.random() * (window.innerHeight - 150)) + 'px';
-            document.body.appendChild(popup);
         });
     </script>
 </body>
