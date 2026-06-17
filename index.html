@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>⚠️ WARNING: REMOTE CONTROL DETECTED ⚠️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background-color: #0d0d0d;
+            color: #00ff00; /* Màu xanh lá hacker */
+            font-family: 'Courier New', Courier, monospace;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* --- GIAO DIỆN CẢNH BÁO (ĐỨNG YÊN, KHÔNG RUNG LẮC) --- */
+        .container {
+            border: 3px solid #ff0000;
+            background: rgba(15, 15, 15, 0.95);
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .danger-title {
+            color: #ff3333;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+
+        .info-line {
+            text-align: left;
+            margin-bottom: 12px;
+            font-size: 14px;
+            border-bottom: 1px dashed #333;
+            padding-bottom: 6px;
+        }
+
+        .alert-text {
+            color: #ffcc00;
+            margin: 25px 0;
+            font-size: 15px;
+            line-height: 1.6;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 20px;
+            background: #222;
+            border: 1px solid #ff3333;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: #ff3333;
+            transition: width 0.1s linear;
+        }
+
+        /* Cửa sổ thông báo lỗi giả hiện lên khi click */
+        .pop-up-error {
+            position: absolute;
+            background: #fff;
+            color: #000;
+            font-family: sans-serif;
+            font-size: 13px;
+            border: 2px solid #f00;
+            padding: 15px;
+            width: 280px;
+            box-shadow: 10px 10px 0px #000;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="danger-title">⚠️ TIẾN TRÌNH CHIẾM QUYỀN ĐANG HOẠT ĐỘNG ⚠️</div>
+        
+        <div class="info-line"><span style="color: #888;">[MÁY CHỦ KIỂM SOÁT]:</span> RX-SERVER-X99 (Bắc Kinh)</div>
+        <div class="info-line"><span style="color: #888;">[GIAO THỨC]:</span> RAT (Remote Access Trojan) v4.2</div>
+        <div class="info-line"><span style="color: #888;">[TRẠNG THÁI]:</span> Đang đồng bộ hóa toàn bộ tài nguyên hệ thống...</div>
+        
+        <div class="alert-text">
+            🛑 CẢNH BÁO: THIẾT BỊ ĐÃ BỊ CHIẾM QUYỀN ĐIỀU KHIỂN.<br>
+            NẾU CỐ TÌNH THOÁT TRÌNH DUYỆT, MÃ ĐỘC SẼ TỰ ĐỘNG BÊN TRONG (PAYLOAD TRIGGER) LÀM NHIỄM VIRUS TOÀN DIỆN VÀ HỦY HOẠI HỆ THỐNG GỐC!
+        </div>
+
+        <div style="font-size: 13px; color: #ff3333;">Đang mã hóa dữ liệu cục bộ: <span id="percent-num">0</span>%</div>
+        <div class="loading-bar">
+            <div class="progress" id="progress-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        const progressBar = document.getElementById('progress-bar');
+        const percentNum = document.getElementById('percent-num');
+        let currentProgress = 0;
+
+        // Tiến trình chạy phần trăm tăng dần ảo
+        const progressInterval = setInterval(() => {
+            currentProgress += Math.random() * 2;
+            if (currentProgress >= 100) {
+                currentProgress = 100;
+                clearInterval(progressInterval);
+            }
+            progressBar.style.width = currentProgress + '%';
+            percentNum.textContent = Math.floor(currentProgress);
+        }, 300);
+
+        // Hiện các pop-up lỗi nhảy lung tung khi bấm vào màn hình
+        document.body.addEventListener('click', () => {
+            const popup = document.createElement('div');
+            popup.className = 'pop-up-error';
+            popup.innerHTML = `
+                <b style="color:red;">SYSTEM FAILURE!</b>
+                <p style="margin: 8px 0;">Không thể ngắt kết nối với Máy chủ kiểm soát. Tài nguyên CPU đang bị quá tải (99%).</p>
+                <button style="float:right; padding:2px 10px;" onclick="this.parentElement.remove()">Đóng</button>
+            `;
+            popup.style.left = (Math.random() * (window.innerWidth - 300)) + 'px';
+            popup.style.top = (Math.random() * (window.innerHeight - 150)) + 'px';
+            document.body.appendChild(popup);
+        });
+    </script>
+</body>
+</html>
